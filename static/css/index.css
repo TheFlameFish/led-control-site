@@ -1,8 +1,9 @@
 button {
-    font-size: xx-large;
-    color: blue;
+    font-size: 100px;
+    background-color: blue;
+    color: white;
+    border-radius: 25px;
+    margin-bottom: 50px;
+    
 }
 
-h1 {
-    color: blue;
-}

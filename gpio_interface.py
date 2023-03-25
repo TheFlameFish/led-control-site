@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 import RPi.GPIO as GPIO
+import time
 
 app = Flask(__name__)
 
@@ -15,18 +16,32 @@ def show_user_profile(username):
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    # Generate a chache buster based on the current time
+    cache_buster = int(time.time())
+    # Render the index file and pass the cache buster to it
+    return render_template("index.html", cache_buster=cache_buster)
 
 @app.route("/on")
 def turn_on():
     GPIO.output(led,GPIO.HIGH)
-    return render_template("index.html")
+    
+    # Generate a chache buster based on the current time
+    cache_buster = int(time.time())
+    # Render the index file and pass the cache buster to it
+    return render_template("index.html", cache_buster=cache_buster)
 
 @app.route("/off")
 def turn_off():
     GPIO.output(led,GPIO.LOW)
-    return render_template("index.html")
+    
+    # Generate a chache buster based on the current time
+    cache_buster = int(time.time())
+    # Render the index file and pass the cache buster to it
+    return render_template("index.html", cache_buster=cache_buster)
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0",port=8080,debug=True)
+    try:
+        app.run(host="0.0.0.0",port=8080,debug=True)
+    except KeyboardInterrupt:
+        GPIO.cleanup()
