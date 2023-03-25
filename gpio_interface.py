@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 import RPi.GPIO as GPIO
 import time
+import atexit
 
 app = Flask(__name__)
 
@@ -56,9 +57,15 @@ def turn_off():
     # Render the index file and pass the cache buster to it
     return index()
 
+# Define function to shut down the led
+def destroy():
+    GPIO.output(led,GPIO.LOW)
+    GPIO.cleanup()
 
 if __name__ == "__main__":
     try:
-        app.run(host="0.0.0.0",port=8080,debug=True)
+        app.run(host="0.0.0.0",port=2424,debug=True)
     except KeyboardInterrupt:
         GPIO.cleanup()
+
+atexit.register(destroy)
